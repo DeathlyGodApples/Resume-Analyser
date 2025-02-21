@@ -4,7 +4,7 @@ import { Analysis } from './components/Analysis';
 import { ResumeChat } from './components/ResumeChat';
 import { analyzeResume } from './services/gemini';
 import type { UploadState } from './types';
-import { Loader2, FileText, Briefcase, Brain, Building, X, Sparkles } from 'lucide-react';
+import { Loader2, FileText, Briefcase, Brain, Building, X, Sparkles, Key, Github } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useResponsive } from './useResponsive';
 import { animations, getAnimationProps } from './animation';
@@ -20,6 +20,7 @@ function App() {
     isAnalyzing: false,
     error: null,
     analysis: null,
+    userApiKey: '', // Added for API key support
   });
 
   const validateForm = () => {
@@ -50,7 +51,8 @@ function App() {
         state.jobTitle,
         state.jobLevel,
         state.company,
-        state.jobDescription
+        state.jobDescription,
+        state.userApiKey
       );
       setState(prev => ({ ...prev, analysis, isAnalyzing: false }));
     } catch (error) {
@@ -124,6 +126,21 @@ function App() {
             {/* Job Details */}
             <motion.div variants={animations.fadeIn} className="space-y-6">
               <div className="space-y-4">
+                {/* API Key Input */}
+                <div className="relative">
+                  <input
+                    type="password"
+                    value={state.userApiKey}
+                    onChange={(e) => setState(p => ({ ...p, userApiKey: e.target.value }))}
+                    className="input-neumorph"
+                    placeholder="Gemini API Key (optional)"
+                  />
+                  <Key className="absolute right-3 top-3.5 h-5 w-5 text-accent-blue/60" />
+                  <p className="text-sm text-neutral-500 mt-1">
+                    Your API key is used locally and never stored
+                  </p>
+                </div>
+
                 <div className="relative">
                   <input
                     type="text"
@@ -250,10 +267,25 @@ function App() {
         {/* Add ResumeChat component */}
         {state.analysis && (
           <div style={{ zIndex: 2 }}>
-            <ResumeChat analysis={state.analysis} />
+            <ResumeChat analysis={state.analysis} userApiKey={state.userApiKey} />
           </div>
         )}
       </div>
+
+      {/* Footer */}
+      <footer className="py-6 text-center text-sm text-neutral-600">
+        <div className="flex items-center justify-center gap-2">
+          <span>Made by Sanket Shivashankaran</span>
+          <a 
+            href="https://github.com/DeathlyGodApples/Resume-Analyser" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-accent-blue hover:text-accent-blue/80 transition-colors"
+          >
+            <Github className="h-4 w-4" />
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }

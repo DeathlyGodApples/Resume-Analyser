@@ -111,14 +111,16 @@ export async function analyzeResume(
   jobTitle: string,
   jobLevel: string,
   company: string,
-  jobDescription: string
+  jobDescription: string,
+  userApiKey?: string
 ): Promise<ResumeAnalysis> {
   try {
-    if (!import.meta.env.VITE_GEMINI_API_KEY) {
-      throw new Error('Missing VITE_GEMINI_KEY environment variable');
+    const apiKey = userApiKey || import.meta.env.VITE_GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error('Missing Gemini API key');
     }
 
-    const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
+    const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
       model: 'gemini-1.5-pro-latest',
       safetySettings: SAFETY_SETTINGS,
@@ -299,22 +301,23 @@ export async function analyzeResume(
   }
 }
 
-// Add chat function
 export async function generateChatResponse(
   userMessage: string,
   analysis: ResumeAnalysis,
-  previousMessages: { role: string; content: string }[]
+  previousMessages: { role: string; content: string }[],
+  userApiKey?: string
 ): Promise<string> {
-  if (!import.meta.env.VITE_GEMINI_API_KEY) {
-    throw new Error('Missing VITE_GEMINI_KEY environment variable');
+  const apiKey = userApiKey || import.meta.env.VITE_GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error('Missing Gemini API key');
   }
 
-  const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
+  const genAI = new GoogleGenerativeAI(apiKey);
   const model = genAI.getGenerativeModel({
     model: 'gemini-2.0-flash',
     safetySettings: SAFETY_SETTINGS,
     generationConfig: {
-      temperature: 0.45	,
+      temperature: 0.45,
       topP: 0.84,
       topK: 72,
       maxOutputTokens: 12000
