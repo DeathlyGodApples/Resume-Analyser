@@ -133,7 +133,7 @@ function App() {
                     value={state.userApiKey}
                     onChange={(e) => setState(p => ({ ...p, userApiKey: e.target.value }))}
                     className="input-neumorph"
-                    placeholder="Gemini API Key (optional)"
+                    placeholder="Your Gemini API Key"
                   />
                   <Key className="absolute right-3 top-3.5 h-5 w-5 text-accent-blue/60" />
                   <p className="text-sm text-neutral-500 mt-1">
