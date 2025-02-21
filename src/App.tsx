@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { FileUpload } from './components/FileUpload';
 import { Analysis } from './components/Analysis';
 import { ResumeChat } from './components/ResumeChat';
+import { DownloadPDF } from './components/DownloadPDF';
 import { analyzeResume } from './services/gemini';
 import type { UploadState } from './types';
 import { Loader2, FileText, Briefcase, Brain, Building, X, Sparkles, Key, Github } from 'lucide-react';
@@ -257,6 +258,11 @@ function App() {
             style={{ zIndex: 1 }}
             {...getAnimationProps('slideAndFade', { direction: 'right' })}
           >
+            {state.analysis && (
+              <div className="flex justify-end mb-4">
+                <DownloadPDF analysis={state.analysis} />
+              </div>
+            )}
             <Analysis 
               analysis={state.analysis}
               error={state.error}

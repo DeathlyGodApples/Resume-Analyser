@@ -11,7 +11,7 @@ interface AnalysisProps {
 export function Analysis({ analysis, error }: AnalysisProps) {
   if (error) {
     return (
-      <div className="p-6 bg-red-50 border border-red-200 rounded-xl text-red-700 flex items-start space-x-3">
+      <div className="analysis-section p-6 bg-red-50 border border-red-200 rounded-xl text-red-700 flex items-start space-x-3">
         <XCircle className="flex-shrink-0 h-6 w-6 mt-1" />
         <div>
           <h3 className="text-lg font-semibold mb-2">Analysis Failed</h3>
@@ -23,14 +23,14 @@ export function Analysis({ analysis, error }: AnalysisProps) {
 
   if (!analysis) {
     return (
-      <div className="p-6 bg-blue-50 border border-blue-200 rounded-xl text-blue-700 text-center">
+      <div className="analysis-section p-6 bg-blue-50 border border-blue-200 rounded-xl text-blue-700 text-center">
         <p>Your analysis results will appear here</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8">
+    <div className="analysis-section space-y-8">
       {/* Score Cards */}
       <motion.div 
         className="grid md:grid-cols-2 gap-6"
