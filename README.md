@@ -62,3 +62,8 @@ To use either the website or local version, you'll need a Gemini API key:
 - Skills gap analysis
 - ATS optimization suggestions
 - Interactive chat for follow-up questions
+
+
+## Side Notes
+
+Some testing files such as MorphicDemo + TestStyles don't effect any of the core functions and were just used for testing different UI/UX features. Feel free to experiement with different styles using these.
